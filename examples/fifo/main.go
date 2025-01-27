@@ -17,7 +17,7 @@ func main() {
 	// Adding jobs to the FIFO scheduler
 	for i := 1; i <= 5; i++ {
 		jobID := i
-		fifo.Add(schedule.NewJob(ctx, func() error {
+		fifo.Add(schedule.NewJob(func(ctx context.Context) error {
 			fmt.Printf("Executing job %d\n", jobID)
 			time.Sleep(1 * time.Second)
 			return nil

@@ -16,7 +16,7 @@ func TestLIFO(t *testing.T) {
 
 	for i := 1; i <= 5; i++ {
 		jobID := i
-		lifo.Add(schedule.NewJob(ctx, func() error {
+		lifo.Add(schedule.NewJob(func(ctx context.Context) error {
 			t.Logf("Executing LIFO job %d\n", jobID)
 			return nil
 		}))
@@ -43,7 +43,7 @@ func TestFIFO(t *testing.T) {
 
 	for i := 1; i <= 5; i++ {
 		jobID := i
-		fifo.Add(schedule.NewJob(ctx, func() error {
+		fifo.Add(schedule.NewJob(func(ctx context.Context) error {
 			t.Logf("Executing FIFO job %d\n", jobID)
 			return nil
 		}))
@@ -71,7 +71,7 @@ func TestPriorityQueue(t *testing.T) {
 	for i := 1; i <= 5; i++ {
 		jobID := i
 		priority := 5 - i // Higher priority for lower jobID
-		pq.Add(schedule.NewPriorityJob(ctx, func() error {
+		pq.Add(schedule.NewPriorityJob(func(ctx context.Context) error {
 			t.Logf("Executing PriorityQueue job %d with priority %d\n", jobID, priority)
 			return nil
 		}, priority))

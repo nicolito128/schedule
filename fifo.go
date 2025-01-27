@@ -34,7 +34,7 @@ func (l *FIFO) Len() int {
 
 func (f *FIFO) Run(ctx context.Context) {
 	if ctx == nil {
-		ctx = context.Background()
+		ctx = context.TODO()
 	}
 
 	go func() {
@@ -59,7 +59,7 @@ func (f *FIFO) Run(ctx context.Context) {
 				}
 				return
 			default:
-				if err = job.Done(); err != nil {
+				if err = job.Done(ctx); err != nil {
 					f.errCh <- err
 					return
 				}

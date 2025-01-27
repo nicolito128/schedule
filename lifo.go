@@ -36,7 +36,7 @@ func (l *LIFO) Len() int {
 
 func (l *LIFO) Run(ctx context.Context) {
 	if ctx == nil {
-		ctx = context.Background()
+		ctx = context.TODO()
 	}
 
 	go func() {
@@ -60,7 +60,7 @@ func (l *LIFO) Run(ctx context.Context) {
 				}
 				return
 			default:
-				if err = job.Done(); err != nil {
+				if err = job.Done(ctx); err != nil {
 					l.errCh <- err
 					return
 				}

@@ -17,7 +17,7 @@ func main() {
 	// Adding jobs to the LIFO scheduler
 	for i := 1; i <= 5; i++ {
 		jobID := i
-		lifo.Add(schedule.NewJob(ctx, func() error {
+		lifo.Add(schedule.NewJob(func(ctx context.Context) error {
 			fmt.Printf("Executing job %d\n", jobID)
 			time.Sleep(1 * time.Second)
 			return nil

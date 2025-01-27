@@ -35,15 +35,15 @@ func main() {
 	pq := schedule.NewPriorityQueue()
 
 	// Add jobs with different priorities
-	pq.Add(schedule.NewPriorityJob(ctx, func() error {
+	pq.Add(schedule.NewPriorityJob(func(ctx context.Context) error {
 		fmt.Println("Job 1 with priority 1")
 		return nil
 	}, 1))
-	pq.Add(schedule.NewPriorityJob(ctx, func() error {
+	pq.Add(schedule.NewPriorityJob(func(ctx context.Context) error {
 		fmt.Println("Job 2 with priority 3")
 		return nil
 	}, 3))
-	pq.Add(schedule.NewPriorityJob(ctx, func() error {
+	pq.Add(schedule.NewPriorityJob(func(ctx context.Context) error {
 		fmt.Println("Job 3 with priority 2")
 		return nil
 	}, 2))

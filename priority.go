@@ -22,9 +22,9 @@ type priorityJobImpl struct {
 
 var _ Job = (*priorityJobImpl)(nil)
 
-func NewPriorityJob(ctx context.Context, handler func() error, prio int) PriorityJob {
+func NewPriorityJob(handler func(context.Context) error, prio int) PriorityJob {
 	return &priorityJobImpl{
-		job:      NewJob(ctx, handler),
+		job:      NewJob(handler),
 		priority: prio,
 	}
 }
@@ -36,12 +36,8 @@ func NewPriorityJobFrom(job Job, prio int) PriorityJob {
 	}
 }
 
-func (pj *priorityJobImpl) Done() error {
-	return pj.job.Done()
-}
-
-func (pj *priorityJobImpl) Context() context.Context {
-	return pj.job.Context()
+func (pj *priorityJobImpl) Done(ctx context.Context) error {
+	return pj.job.Done(ctx)
 }
 
 func (pj *priorityJobImpl) Priority() int {
@@ -109,7 +105,7 @@ func (pq *PriorityQueue) Len() int {
 
 func (pq *PriorityQueue) Run(ctx context.Context) {
 	if ctx == nil {
-		ctx = context.Background()
+		ctx = context.TODO()
 	}
 
 	go func() {
@@ -134,7 +130,7 @@ func (pq *PriorityQueue) Run(ctx context.Context) {
 				}
 				return
 			default:
-				if err = job.Done(); err != nil {
+				if err = job.Done(ctx); err != nil {
 					pq.errCh <- err
 					return
 				}
